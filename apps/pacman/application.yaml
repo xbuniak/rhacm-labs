@@ -1,0 +1,42 @@
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: pacman-app-latest
+  namespace: pacman
+spec:
+  type: GitHub
+  pathname: https://github.com/xbuniak/rhacm-labs.git
+---
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: pacman-app
+  namespace: pacman
+spec:
+  componentKinds:
+  - group: apps.open-cluster-management.io
+    kind: Subscription
+  descriptor: {}
+  selector:
+    matchExpressions:
+    - key: app
+      operator: In
+      values:
+      - pacman-app
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  name: pacman-app
+  namespace: pacman
+  labels:
+    app: pacman-app
+  annotations:
+    apps.open-cluster-management.io/github-path: resources/pacman
+spec:
+  channel: pacman/etherpad-app-latest
+  placement:
+    placementRef:
+      kind: PlacementRule
+      name: pacman-dev-clusters
