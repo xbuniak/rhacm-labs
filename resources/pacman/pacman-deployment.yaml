@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: pacamn-app
+    app: pacman-app
   name: pacman-deployment
 spec:
   replicas: 1
