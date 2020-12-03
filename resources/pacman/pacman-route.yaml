@@ -2,7 +2,7 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   labels:
-    app: pacman
+    app: pacman-app
   name: pacman-route
 spec:
   tls:
