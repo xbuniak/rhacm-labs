@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: pacamn
+    app: pacamn-app
   name: pacman-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pacman
+      app: pacman-app
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       labels:
-        app: pacman
+        app: pacman-app
     spec:
       containers:
       - env:
