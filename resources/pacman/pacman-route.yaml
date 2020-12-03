@@ -9,6 +9,6 @@ spec:
     insecureEdgeTerminationPolicy: Redirect
     termination: edge
   to:
-    name: pacman
+    name: pacman-app
   port:
     targetPort: 8080
