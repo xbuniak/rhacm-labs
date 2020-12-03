@@ -11,4 +11,4 @@ spec:
   to:
     name: pacman
   port:
-    targetPort: 9002
+    targetPort: 8080
