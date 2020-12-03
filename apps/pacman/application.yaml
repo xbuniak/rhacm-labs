@@ -35,7 +35,7 @@ metadata:
   annotations:
     apps.open-cluster-management.io/github-path: resources/pacman
 spec:
-  channel: pacman/etherpad-app-latest
+  channel: pacman/pacman-app-latest
   placement:
     placementRef:
       kind: PlacementRule
