@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pacamn
+  name: pacman-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pacman
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: pacman
+    spec:
+      containers:
+      - env:
+        - name: DB_TYPE
+          value: postgres
+        - name: DB_HOST
+          value: postgresql
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_DATABASE
+          value: pacman
+        - name: DB_USER
+          value: pacman
+        - name: DB_PASS
+          value: pacman
+        - name: NODE_ENV
+          value: production
+          #        image: quay.io/gpte-devops-automation/etherpad:latest
+          image: "buniak/pacman"
+        imagePullPolicy: Always
+        name: pacman
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        readinessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /
+            port: 9001
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 9001
+            scheme: HTTP
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        volumeMounts:
+        - mountPath: /opt/etherpad/config
+          name: pacman-settings
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: pacman-settings
+        name: pacman-settings
