@@ -10,17 +10,13 @@ spec:
     matchLabels:
       app: pacman-app
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
         app: pacman-app
     spec:
     containers:
-      - name: frontend
+      - name: pacman-app
         image: "buniak/pacman"
         imagePullPolicy: Always
         ports:
